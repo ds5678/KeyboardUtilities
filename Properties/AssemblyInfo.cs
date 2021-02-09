@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonInfo(typeof(KeyboardUtilities.Implementation), "KeyboardUtilities", "1.0.0", "ds5678")]
+[assembly: MelonInfo(typeof(KeyboardUtilities.Implementation), "KeyboardUtilities", "1.0.0", "Sinai, ds5678")]
 [assembly: MelonGame("Hinterland", "TheLongDark")]
