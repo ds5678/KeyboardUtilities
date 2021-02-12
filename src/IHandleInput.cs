@@ -15,8 +15,11 @@ namespace KeyboardUtilities
         bool GetKeyDown(KeyCode key);
         bool GetKey(KeyCode key);
 
+        bool GetKeyUp(KeyCode key);
+
         bool GetMouseButtonDown(int btn);
         bool GetMouseButton(int btn);
+        bool GetMouseButtonUp(int btn);
 
         BaseInputModule UIModule { get; }
 

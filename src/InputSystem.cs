@@ -21,10 +21,12 @@ namespace KeyboardUtilities
             var btnControl = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Controls.ButtonControl");
             m_btnIsPressedProp = btnControl.GetProperty("isPressed");
             m_btnWasPressedProp = btnControl.GetProperty("wasPressedThisFrame");
+            m_btnWasReleasedProp = btnControl.GetProperty("wasReleasedThisFrame");
 
             m_mouseCurrentProp = TMouse.GetProperty("current");
             m_leftButtonProp = TMouse.GetProperty("leftButton");
             m_rightButtonProp = TMouse.GetProperty("rightButton");
+            m_middleButtonProp = TMouse.GetProperty("middleButton");
 
             m_positionProp = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Pointer")
                             .GetProperty("position");
@@ -45,6 +47,7 @@ namespace KeyboardUtilities
 
         private static PropertyInfo m_btnIsPressedProp;
         private static PropertyInfo m_btnWasPressedProp;
+        private static PropertyInfo m_btnWasReleasedProp;
 
         private static object CurrentKeyboard => m_currentKeyboard ?? (m_currentKeyboard = m_kbCurrentProp.GetValue(null, null));
         private static object m_currentKeyboard;
@@ -62,6 +65,10 @@ namespace KeyboardUtilities
         private static object RightMouseButton => m_rmb ?? (m_rmb = m_rightButtonProp.GetValue(CurrentMouse, null));
         private static object m_rmb;
         private static PropertyInfo m_rightButtonProp;
+
+        private static object MiddleMouseButton => m_mmb ?? (m_mmb = m_middleButtonProp.GetValue(CurrentMouse, null));
+        private static object m_mmb;
+        private static PropertyInfo m_middleButtonProp;
 
         private static object MousePositionInfo => m_pos ?? (m_pos = m_positionProp.GetValue(CurrentMouse, null));
         private static object m_pos;
@@ -108,13 +115,15 @@ namespace KeyboardUtilities
 
         public bool GetKey(KeyCode key) => (bool)m_btnIsPressedProp.GetValue(GetActualKey(key), null);
 
+        public bool GetKeyUp(KeyCode key) => (bool)m_btnWasReleasedProp.GetValue(GetActualKey(key), null);
+
         public bool GetMouseButtonDown(int btn)
         {
             switch (btn)
             {
                 case 0: return (bool)m_btnWasPressedProp.GetValue(LeftMouseButton, null);
                 case 1: return (bool)m_btnWasPressedProp.GetValue(RightMouseButton, null);
-                // case 2: return (bool)_btnWasPressedProp.GetValue(MiddleMouseButton, null);
+                case 2: return (bool)m_btnWasPressedProp.GetValue(MiddleMouseButton, null);
                 default: throw new NotImplementedException();
             }
         }
@@ -125,7 +134,18 @@ namespace KeyboardUtilities
             {
                 case 0: return (bool)m_btnIsPressedProp.GetValue(LeftMouseButton, null);
                 case 1: return (bool)m_btnIsPressedProp.GetValue(RightMouseButton, null);
-                // case 2: return (bool)_btnIsPressedProp.GetValue(MiddleMouseButton, null);
+                case 2: return (bool)m_btnIsPressedProp.GetValue(MiddleMouseButton, null);
+                default: throw new NotImplementedException();
+            }
+        }
+
+        public bool GetMouseButtonUp(int btn)
+        {
+            switch (btn)
+            {
+                case 0: return (bool)m_btnWasReleasedProp.GetValue(LeftMouseButton, null);
+                case 1: return (bool)m_btnWasReleasedProp.GetValue(RightMouseButton, null);
+                case 2: return (bool)m_btnWasReleasedProp.GetValue(MiddleMouseButton, null);
                 default: throw new NotImplementedException();
             }
         }

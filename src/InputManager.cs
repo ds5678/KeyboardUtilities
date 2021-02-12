@@ -20,9 +20,11 @@ namespace KeyboardUtilities
 
         public static bool GetKeyDown(KeyCode key) => m_inputModule.GetKeyDown(key);
         public static bool GetKey(KeyCode key) => m_inputModule.GetKey(key);
+        public static bool GetKeyUp(KeyCode key) => m_inputModule.GetKeyUp(key);
 
         public static bool GetMouseButtonDown(int btn) => m_inputModule.GetMouseButtonDown(btn);
         public static bool GetMouseButton(int btn) => m_inputModule.GetMouseButton(btn);
+        public static bool GetMouseButtonUp(int btn) => m_inputModule.GetMouseButtonUp(btn);
 
         public static BaseInputModule UIInput => m_inputModule.UIModule;
         public static PointerEventData InputPointerEvent => m_inputModule.InputPointerEvent;
