@@ -15,7 +15,7 @@ This is a utility mod for *The Long Dark* that enables other mods to more easily
 ```
 public static void SomeMethod() 
 {
-    if(KeyboardUtilities.InputManager.GetKey(KeyCode.T)
+    if(KeyboardUtilities.InputManager.GetKey(KeyCode.T))
     {
         DoSomething();
     }
