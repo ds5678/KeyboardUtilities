@@ -1,7 +1,5 @@
 ﻿# Keyboard Utilities
 
-> Disclaimer: 
-
 This is a utility mod for *The Long Dark* that enables other mods to more easily use Keyboard input.
 
 ## Special Thanks
