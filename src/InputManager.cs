@@ -17,6 +17,7 @@ namespace KeyboardUtilities
         private static IHandleInput m_inputModule;
 
         public static Vector3 MousePosition => m_inputModule.MousePosition;
+        public static Vector2 MouseScrollDelta => m_inputModule.MouseScrollDelta;
 
         public static bool GetKeyDown(KeyCode key) => m_inputModule.GetKeyDown(key);
         public static bool GetKey(KeyCode key) => m_inputModule.GetKey(key);

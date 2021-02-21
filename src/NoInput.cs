@@ -6,6 +6,7 @@ namespace KeyboardUtilities
     public class NoInput : IHandleInput
     {
         public Vector2 MousePosition => Vector2.zero;
+        public Vector2 MouseScrollDelta => Vector2.zero;
 
         public bool GetKey(KeyCode key) => false;
         public bool GetKeyDown(KeyCode key) => false;

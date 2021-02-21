@@ -27,6 +27,7 @@ namespace KeyboardUtilities
             m_leftButtonProp = TMouse.GetProperty("leftButton");
             m_rightButtonProp = TMouse.GetProperty("rightButton");
             m_middleButtonProp = TMouse.GetProperty("middleButton");
+            m_scrollProp = TMouse.GetProperty("scroll");
 
             m_positionProp = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Pointer")
                             .GetProperty("position");
@@ -70,6 +71,10 @@ namespace KeyboardUtilities
         private static object m_mmb;
         private static PropertyInfo m_middleButtonProp;
 
+        private static object MouseScrollInfo => m_scroll ?? (m_scroll = m_scrollProp.GetValue(CurrentMouse, null));
+        private static object m_scroll;
+        private static PropertyInfo m_scrollProp;
+
         private static object MousePositionInfo => m_pos ?? (m_pos = m_positionProp.GetValue(CurrentMouse, null));
         private static object m_pos;
         private static PropertyInfo m_positionProp;
@@ -82,6 +87,21 @@ namespace KeyboardUtilities
                 try
                 {
                     return (Vector2)m_readVector2InputMethod.Invoke(MousePositionInfo, new object[0]);
+                }
+                catch
+                {
+                    return Vector2.zero;
+                }
+            }
+        }
+
+        public Vector2 MouseScrollDelta
+        {
+            get
+            {
+                try
+                {
+                    return (Vector2)m_readVector2InputMethod.Invoke(MouseScrollInfo, new object[0]);
                 }
                 catch
                 {

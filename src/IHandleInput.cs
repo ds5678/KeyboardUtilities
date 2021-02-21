@@ -12,6 +12,8 @@ namespace KeyboardUtilities
     {
         Vector2 MousePosition { get; }
 
+        Vector2 MouseScrollDelta { get; }
+
         bool GetKeyDown(KeyCode key);
         bool GetKey(KeyCode key);
 
