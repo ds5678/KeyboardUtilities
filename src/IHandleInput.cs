@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace KeyboardUtilities
 {
-    public interface IHandleInput
+    internal interface IHandleInput
     {
         Vector2 MousePosition { get; }
 

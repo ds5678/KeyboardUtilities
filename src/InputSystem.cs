@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace KeyboardUtilities
 {
-    public class InputSystem : IHandleInput
+    internal class InputSystem : IHandleInput
     {
         public InputSystem()
         {

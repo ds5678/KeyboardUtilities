@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace KeyboardUtilities
 {
-    public class LegacyInput : IHandleInput
+    internal class LegacyInput : IHandleInput
     {
         public LegacyInput()
         {

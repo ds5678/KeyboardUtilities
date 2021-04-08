@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace KeyboardUtilities
 {
-    public class NoInput : IHandleInput
+    internal class NoInput : IHandleInput
     {
         public Vector2 MousePosition => Vector2.zero;
         public Vector2 MouseScrollDelta => Vector2.zero;

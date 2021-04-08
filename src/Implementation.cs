@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace KeyboardUtilities
 {
-    public class Implementation : MelonMod
+    internal class Implementation : MelonMod
     {
         public override void OnApplicationStart()
         {

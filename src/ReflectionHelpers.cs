@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 namespace KeyboardUtilities
 {
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "External methods")]
-    public static class ReflectionHelpers
+    internal static class ReflectionHelpers
     {
         public static BF CommonFlags = BF.Public | BF.Instance | BF.NonPublic | BF.Static;
 
