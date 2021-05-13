@@ -1,33 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 namespace KeyboardUtilities
 {
-    internal interface IHandleInput
-    {
-        Vector2 MousePosition { get; }
+	internal interface IHandleInput
+	{
+		bool GetKeyDown(KeyCode key);
+		bool GetKey(KeyCode key);
+		bool GetKeyUp(KeyCode key);
 
-        Vector2 MouseScrollDelta { get; }
+		bool GetMouseButtonDown(int btn);
+		bool GetMouseButton(int btn);
+		bool GetMouseButtonUp(int btn);
 
-        bool GetKeyDown(KeyCode key);
-        bool GetKey(KeyCode key);
-
-        bool GetKeyUp(KeyCode key);
-
-        bool GetMouseButtonDown(int btn);
-        bool GetMouseButton(int btn);
-        bool GetMouseButtonUp(int btn);
-
-        BaseInputModule UIModule { get; }
-
-        PointerEventData InputPointerEvent { get; }
-
-        void AddUIInputModule();
-        void ActivateModule();
-    }
+		Vector2 MousePosition { get; }
+		Vector2 MouseScrollDelta { get; }
+	}
 }

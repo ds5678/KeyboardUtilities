@@ -1,6 +1,6 @@
 ﻿# Keyboard Utilities
 
-This is a utility mod for *The Long Dark* that enables other mods to more easily use Keyboard input.
+This is a universal utility mod for Unity games that enables other mods to more easily use Keyboard and Mouse input.
 
 ## Special Thanks
 
@@ -14,7 +14,7 @@ I know many people might skip over this, but I hope you don't. You are so specia
 
 1. If you haven't done so already, install MelonLoader by downloading and running [MelonLoader.Installer.exe](https://github.com/HerpDerpinstine/MelonLoader/releases/latest/download/MelonLoader.Installer.exe).
 2. Download the latest version of `KeyboardUtilities.dll` from the [releases page](https://github.com/ds5678/KeyboardUtilities/releases).
-3. Move `KeyboardUtilities.dll` into the Mods folder in your TLD install directory.
+3. Move `KeyboardUtilities.dll` into the Mods folder in your game install directory.
 
 ## Example Use
 
