@@ -40,7 +40,7 @@
 		<PackageId>ds5678.Modding.Unity.KeyboardUtilities</PackageId>
 		<PackageTags>MelonLoader modding Unity universal input keyboard mouse mod</PackageTags>
 		<RepositoryUrl>https://github.com/ds5678/KeyboardUtilities</RepositoryUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/ds5678/KeyboardUtilities</PackageProjectUrl>
 		<Description>Modding library for Unity games enabling access to the input system.</Description>
