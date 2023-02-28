@@ -2,6 +2,8 @@
 
 This is a universal utility mod for Unity games that enables other mods to more easily use Keyboard and Mouse input.
 
+[NuGet Link](https://www.nuget.org/packages/ds5678.Modding.Unity.KeyboardUtilities/)
+
 ## Special Thanks
 
 I greatly appreciate the work [Sinai](https://github.com/sinai-dev) has done. Most of the code in this project comes from his [Unity Explorer](https://github.com/sinai-dev/UnityExplorer) project. I adapted the code for use with modding The Long Dark and added my own additional funcionality, but none of it would have been possible without [Unity Explorer](https://github.com/sinai-dev/UnityExplorer).
