@@ -1,85 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using BF = System.Reflection.BindingFlags;
+﻿using System.Reflection;
 
-namespace KeyboardUtilities
+namespace KeyboardUtilities;
+
+internal static class ReflectionHelpers
 {
-	internal static class ReflectionHelpers
-	{
-		public static BF CommonFlags = BF.Public | BF.Instance | BF.NonPublic | BF.Static;
+	public const BindingFlags CommonFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static;
 
-		public static Type GetTypeByName(string fullName)
+	public static Type? GetTypeByName(string fullName)
+	{
+		foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
 		{
-			foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+			foreach (var type in asm.TryGetTypes())
 			{
-				foreach (var type in asm.TryGetTypes())
+				if (type.FullName == fullName)
 				{
-					if (type.FullName == fullName)
-					{
-						return type;
-					}
+					return type;
 				}
 			}
-
-			return null;
 		}
 
-		public static IEnumerable<Type> TryGetTypes(this Assembly asm)
+		return null;
+	}
+
+	public static IEnumerable<Type> TryGetTypes(this Assembly asm)
+	{
+		try
+		{
+			return asm.GetTypes();
+		}
+		catch (ReflectionTypeLoadException e)
 		{
 			try
 			{
-				return asm.GetTypes();
-			}
-			catch (ReflectionTypeLoadException e)
-			{
-				try
-				{
-					return asm.GetExportedTypes();
-				}
-				catch
-				{
-					return e.Types.Where(t => t != null);
-				}
+				return asm.GetExportedTypes();
 			}
 			catch
 			{
-				return Enumerable.Empty<Type>();
+				return e.Types.Where(t => t != null);
 			}
 		}
-
-		internal static void TryLoadGameModules()
+		catch
 		{
-			LoadModule("Assembly-CSharp");
-			LoadModule("Assembly-CSharp-firstpass");
+			return Enumerable.Empty<Type>();
 		}
+	}
 
-		public static bool LoadModule(string module)
-		{
+	internal static void TryLoadGameModules()
+	{
+		LoadModule("Assembly-CSharp");
+		LoadModule("Assembly-CSharp-firstpass");
+	}
 
-			var path = $@"MelonLoader\Managed\{module}.dll";
+	public static bool LoadModule(string module)
+	{
 
-			return LoadModuleInternal(path);
-		}
+		var path = $@"MelonLoader\Managed\{module}.dll";
 
-		internal static bool LoadModuleInternal(string fullPath)
-		{
-			if (!File.Exists(fullPath))
-				return false;
+		return LoadModuleInternal(path);
+	}
 
-			try
-			{
-				Assembly.Load(File.ReadAllBytes(fullPath));
-				return true;
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.GetType() + ", " + e.Message);
-			}
-
+	internal static bool LoadModuleInternal(string fullPath)
+	{
+		if (!File.Exists(fullPath))
 			return false;
+
+		try
+		{
+			Assembly.Load(File.ReadAllBytes(fullPath));
+			return true;
 		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e.GetType() + ", " + e.Message);
+		}
+
+		return false;
 	}
 }
