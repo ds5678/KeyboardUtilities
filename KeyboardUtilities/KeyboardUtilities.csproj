@@ -31,4 +31,24 @@
 		<!--The package version here in this template may be outdated and need to be updated. Visual Studio can update package versions automatically.-->
 		<!--If the mod references any other mods (such as ModSettings), that NuGet package will also need to be listed here.-->
 	</ItemGroup>
+
+	<!--This is for NuGet.-->
+	<PropertyGroup>
+		<Authors>ds5678</Authors>
+		<Version>2.0.0</Version>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
+		<PackageId>ds5678.Modding.Unity.KeyboardUtilities</PackageId>
+		<PackageTags>MelonLoader modding Unity universal input keyboard mouse mod</PackageTags>
+		<RepositoryUrl>https://github.com/ds5678/KeyboardUtilities</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/ds5678/KeyboardUtilities</PackageProjectUrl>
+		<Description>Modding library for Unity games enabling access to the input system.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DocumentationFile>bin\KeyboardUtilities.xml</DocumentationFile>
+		<NoWarn>1591</NoWarn>
+	</PropertyGroup>
+
 </Project>
