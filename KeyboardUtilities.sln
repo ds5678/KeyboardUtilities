@@ -1,9 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardUtilities", "KeyboardUtilities.csproj", "{31E7EFCB-D77E-40BA-8609-EA5F7D63E20B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyboardUtilities", "KeyboardUtilities\KeyboardUtilities.csproj", "{28D5759E-C494-4B17-A8A7-4E1DEA14FE9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96D4E58A-2E5E-4D96-8616-57DCDAACED40}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +18,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{31E7EFCB-D77E-40BA-8609-EA5F7D63E20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31E7EFCB-D77E-40BA-8609-EA5F7D63E20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31E7EFCB-D77E-40BA-8609-EA5F7D63E20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31E7EFCB-D77E-40BA-8609-EA5F7D63E20B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D5759E-C494-4B17-A8A7-4E1DEA14FE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D5759E-C494-4B17-A8A7-4E1DEA14FE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D5759E-C494-4B17-A8A7-4E1DEA14FE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D5759E-C494-4B17-A8A7-4E1DEA14FE9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
