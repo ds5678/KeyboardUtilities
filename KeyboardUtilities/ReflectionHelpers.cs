@@ -8,9 +8,9 @@ internal static class ReflectionHelpers
 
 	public static Type? GetTypeByName(string fullName)
 	{
-		foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+		foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
 		{
-			foreach (var type in asm.TryGetTypes())
+			foreach (Type type in asm.TryGetTypes())
 			{
 				if (type.FullName == fullName)
 				{
@@ -22,7 +22,7 @@ internal static class ReflectionHelpers
 		return null;
 	}
 
-	public static IEnumerable<Type> TryGetTypes(this Assembly asm)
+	private static IEnumerable<Type> TryGetTypes(this Assembly asm)
 	{
 		try
 		{
@@ -36,7 +36,7 @@ internal static class ReflectionHelpers
 			}
 			catch
 			{
-				return e.Types.Where(t => t != null);
+				return e.Types.Where(t => t != null)!;
 			}
 		}
 		catch
@@ -47,22 +47,22 @@ internal static class ReflectionHelpers
 
 	internal static void TryLoadGameModules()
 	{
-		LoadModule("Assembly-CSharp");
-		LoadModule("Assembly-CSharp-firstpass");
+		LoadModule("Il2CppAssembly-CSharp");
+		LoadModule("Il2CppAssembly-CSharp-firstpass");
 	}
 
 	public static bool LoadModule(string module)
 	{
-
-		var path = $@"MelonLoader\Managed\{module}.dll";
-
+		string path = $@"MelonLoader\Il2CppAssemblies\{module}.dll";
 		return LoadModuleInternal(path);
 	}
 
 	internal static bool LoadModuleInternal(string fullPath)
 	{
 		if (!File.Exists(fullPath))
+		{
 			return false;
+		}
 
 		try
 		{

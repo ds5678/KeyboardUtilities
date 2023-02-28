@@ -2,7 +2,7 @@
 
 namespace KeyboardUtilities;
 
-public static class BuildInfo
+internal static class BuildInfo
 {
 	public const string Name = "KeyboardUtilities"; // Name of the Mod.  (MUST BE SET)
 	public const string Description = "A input system mod."; // Description for the Mod.  (Set as null if none)
@@ -13,13 +13,12 @@ public static class BuildInfo
 }
 internal class Implementation : MelonMod
 {
-	public override void OnApplicationStart()
+	public override void OnInitializeMelon()
 	{
 		ReflectionHelpers.TryLoadGameModules();
 		InputManager.Init();
 	}
 
-	internal static void Log(string message, params object[] parameters) => MelonLogger.Log(message, parameters);
-	internal static void LogWarning(string message, params object[] parameters) => MelonLogger.LogWarning(message, parameters);
-	internal static void LogError(string message, params object[] parameters) => MelonLogger.LogError(message, parameters);
+	internal static void Log(string message) => MelonLogger.Log(message);
+	internal static void LogWarning(string message) => MelonLogger.LogWarning(message);
 }

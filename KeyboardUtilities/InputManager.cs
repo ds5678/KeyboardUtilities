@@ -2,18 +2,13 @@
 
 namespace KeyboardUtilities;
 
-public enum InputType
-{
-	InputSystem,
-	Legacy,
-	None
-}
-
 public static class InputManager
 {
 	public static InputType CurrentType { get; private set; }
 
+#nullable disable
 	private static IHandleInput m_inputModule;
+#nullable enable
 
 	/// <summary>
 	/// Get the status of a key.
@@ -64,22 +59,33 @@ public static class InputManager
 
 	internal static void Init()
 	{
-		if (InputSystem.TKeyboard != null || (ReflectionHelpers.LoadModule("Unity.InputSystem") && InputSystem.TKeyboard != null))
+		CurrentType = DetermineInputType();
+		m_inputModule = CurrentType switch
 		{
-			m_inputModule = new InputSystem();
-			CurrentType = InputType.InputSystem;
-		}
-		else if (LegacyInput.TInput != null || (ReflectionHelpers.LoadModule("UnityEngine.InputLegacyModule") && LegacyInput.TInput != null))
-		{
-			m_inputModule = new LegacyInput();
-			CurrentType = InputType.Legacy;
-		}
-
-		if (m_inputModule == null)
+			InputType.InputSystem => new InputSystem(),
+			InputType.Legacy => new LegacyInput(),
+			InputType.None => new NoInput(),
+			_ => throw new NotSupportedException(),
+		};
+		if (CurrentType == InputType.None)
 		{
 			Implementation.LogWarning("Could not find any Input module!");
-			m_inputModule = new NoInput();
-			CurrentType = InputType.None;
+		}
+	}
+
+	private static InputType DetermineInputType()
+	{
+		if (ReflectionHelpers.LoadModule("Unity.InputSystem") && ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Keyboard") is not null)
+		{
+			return InputType.InputSystem;
+		}
+		else if (ReflectionHelpers.LoadModule("UnityEngine.InputLegacyModule") && ReflectionHelpers.GetTypeByName("UnityEngine.Input") is not null)
+		{
+			return InputType.Legacy;
+		}
+		else
+		{
+			return InputType.None;
 		}
 	}
 }

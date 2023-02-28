@@ -9,73 +9,77 @@ internal sealed class InputSystem : IHandleInput
 	{
 		Implementation.Log("Initializing new InputSystem support...");
 
-		m_kbCurrentProp = TKeyboard.GetProperty("current");
-		m_kbIndexer = TKeyboard.GetProperty("Item", new Type[] { TKey });
+		TKeyboard = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Keyboard") ?? throw new NullReferenceException(nameof(TKeyboard));
+		TMouse = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Mouse") ?? throw new NullReferenceException(nameof(TMouse));
+		TKey = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Key") ?? throw new NullReferenceException(nameof(TKey));
 
-		var btnControl = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Controls.ButtonControl");
-		m_btnIsPressedProp = btnControl.GetProperty("isPressed");
-		m_btnWasPressedProp = btnControl.GetProperty("wasPressedThisFrame");
-		m_btnWasReleasedProp = btnControl.GetProperty("wasReleasedThisFrame");
+		m_kbCurrentProp = TKeyboard.GetProperty("current") ?? throw new NullReferenceException(nameof(m_kbCurrentProp));
+		CurrentKeyboard = m_kbCurrentProp.GetValue(null, null) ?? throw new NullReferenceException(nameof(CurrentKeyboard));
+		m_kbIndexer = TKeyboard.GetProperty("Item", new Type[] { TKey }) ?? throw new NullReferenceException(nameof(m_kbIndexer));
 
-		m_mouseCurrentProp = TMouse.GetProperty("current");
-		m_leftButtonProp = TMouse.GetProperty("leftButton");
-		m_rightButtonProp = TMouse.GetProperty("rightButton");
-		m_middleButtonProp = TMouse.GetProperty("middleButton");
-		m_scrollProp = TMouse.GetProperty("scroll");
+		Type btnControl = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Controls.ButtonControl") ?? throw new NullReferenceException(nameof(btnControl));
+		m_btnIsPressedProp = btnControl.GetProperty("isPressed") ?? throw new NullReferenceException(nameof(m_btnIsPressedProp));
+		m_btnWasPressedProp = btnControl.GetProperty("wasPressedThisFrame") ?? throw new NullReferenceException(nameof(m_btnWasPressedProp));
+		m_btnWasReleasedProp = btnControl.GetProperty("wasReleasedThisFrame") ?? throw new NullReferenceException(nameof(m_btnWasReleasedProp));
 
-		m_positionProp = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Pointer")
-						.GetProperty("position");
+		PropertyInfo m_mouseCurrentProp = TMouse.GetProperty("current") ?? throw new NullReferenceException(nameof(m_mouseCurrentProp));
+		CurrentMouse = m_mouseCurrentProp.GetValue(null, null) ?? throw new NullReferenceException(nameof(CurrentMouse));
 
-		m_readVector2InputMethod = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.InputControl`1")
-								  .MakeGenericType(typeof(Vector2))
-								  .GetMethod("ReadValue");
+		PropertyInfo m_leftButtonProp = TMouse.GetProperty("leftButton") ?? throw new NullReferenceException(nameof(m_leftButtonProp));
+		LeftMouseButton = m_leftButtonProp.GetValue(CurrentMouse, null) ?? throw new NullReferenceException(nameof(LeftMouseButton));
+
+		PropertyInfo m_rightButtonProp = TMouse.GetProperty("rightButton") ?? throw new NullReferenceException(nameof(m_rightButtonProp));
+		RightMouseButton = m_rightButtonProp.GetValue(CurrentMouse, null) ?? throw new NullReferenceException(nameof(RightMouseButton));
+
+		PropertyInfo m_middleButtonProp = TMouse.GetProperty("middleButton") ?? throw new NullReferenceException(nameof(m_middleButtonProp));
+		MiddleMouseButton = m_middleButtonProp.GetValue(CurrentMouse, null) ?? throw new NullReferenceException(nameof(MiddleMouseButton));
+
+		PropertyInfo m_scrollProp = TMouse.GetProperty("scroll") ?? throw new NullReferenceException(nameof(m_kbCurrentProp));
+		MouseScrollInfo = m_scrollProp.GetValue(CurrentMouse, null) ?? throw new NullReferenceException(nameof(MouseScrollInfo));
+
+		m_positionProp = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Pointer")?
+			.GetProperty("position")
+			?? throw new NullReferenceException(nameof(m_kbCurrentProp));
+		MousePositionInfo = m_positionProp.GetValue(CurrentMouse, null) ?? throw new NullReferenceException(nameof(MousePositionInfo));
+
+		m_readVector2InputMethod = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.InputControl`1")?
+			.MakeGenericType(typeof(Vector2))
+			.GetMethod("ReadValue")
+			?? throw new NullReferenceException(nameof(m_kbCurrentProp));
 	}
 
-	public static Type TKeyboard => m_tKeyboard ?? (m_tKeyboard = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Keyboard"));
-	private static Type m_tKeyboard;
+	public Type TKeyboard { get; }
 
-	public static Type TMouse => m_tMouse ?? (m_tMouse = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Mouse"));
-	private static Type m_tMouse;
+	public Type TMouse { get; }
 
-	public static Type TKey => m_tKey ?? (m_tKey = ReflectionHelpers.GetTypeByName("UnityEngine.InputSystem.Key"));
-	private static Type m_tKey;
+	public Type TKey { get; }
 
-	private static PropertyInfo m_btnIsPressedProp;
-	private static PropertyInfo m_btnWasPressedProp;
-	private static PropertyInfo m_btnWasReleasedProp;
+	private readonly PropertyInfo m_btnIsPressedProp;
+	private readonly PropertyInfo m_btnWasPressedProp;
+	private readonly PropertyInfo m_btnWasReleasedProp;
 
-	private static object CurrentKeyboard => m_currentKeyboard ?? (m_currentKeyboard = m_kbCurrentProp.GetValue(null, null));
-	private static object m_currentKeyboard;
-	private static PropertyInfo m_kbCurrentProp;
-	private static PropertyInfo m_kbIndexer;
+	private object CurrentKeyboard { get; }
 
-	private static object CurrentMouse => m_currentMouse ?? (m_currentMouse = m_mouseCurrentProp.GetValue(null, null));
-	private static object m_currentMouse;
-	private static PropertyInfo m_mouseCurrentProp;
+	private readonly PropertyInfo m_kbCurrentProp;
+	private readonly PropertyInfo m_kbIndexer;
 
-	private static object LeftMouseButton => m_lmb ?? (m_lmb = m_leftButtonProp.GetValue(CurrentMouse, null));
-	private static object m_lmb;
-	private static PropertyInfo m_leftButtonProp;
+	private object CurrentMouse { get; }
 
-	private static object RightMouseButton => m_rmb ?? (m_rmb = m_rightButtonProp.GetValue(CurrentMouse, null));
-	private static object m_rmb;
-	private static PropertyInfo m_rightButtonProp;
+	private object LeftMouseButton { get; }
 
-	private static object MiddleMouseButton => m_mmb ?? (m_mmb = m_middleButtonProp.GetValue(CurrentMouse, null));
-	private static object m_mmb;
-	private static PropertyInfo m_middleButtonProp;
+	private object RightMouseButton { get; }
 
-	private static object MouseScrollInfo => m_scroll ?? (m_scroll = m_scrollProp.GetValue(CurrentMouse, null));
-	private static object m_scroll;
-	private static PropertyInfo m_scrollProp;
+	private object MiddleMouseButton { get; }
 
-	private static object MousePositionInfo => m_pos ?? (m_pos = m_positionProp.GetValue(CurrentMouse, null));
-	private static object m_pos;
-	private static PropertyInfo m_positionProp;
-	private static MethodInfo m_readVector2InputMethod;
+	private object MouseScrollInfo { get; }
 
-	internal static Dictionary<KeyCode, object> ActualKeyDict = new Dictionary<KeyCode, object>();
-	internal static Dictionary<string, string> enumNameFixes = new Dictionary<string, string>
+	private object MousePositionInfo { get; }
+
+	private readonly PropertyInfo m_positionProp;
+	private readonly MethodInfo m_readVector2InputMethod;
+
+	internal Dictionary<KeyCode, object> ActualKeyDict { get; } = new();
+	internal Dictionary<string, string> enumNameFixes = new()
 	{
 		{ "Control", "Ctrl" },
 		{ "Return", "Enter" },
@@ -90,16 +94,18 @@ internal sealed class InputSystem : IHandleInput
 	{
 		if (!ActualKeyDict.ContainsKey(key))
 		{
-			var s = key.ToString();
+			string s = key.ToString();
 			try
 			{
 				if (enumNameFixes.First(it => s.Contains(it.Key)) is KeyValuePair<string, string> entry)
+				{
 					s = s.Replace(entry.Key, entry.Value);
+				}
 			}
 			catch { }
 
-			var parsed = Enum.Parse(TKey, s);
-			var actualKey = m_kbIndexer.GetValue(CurrentKeyboard, new object[] { parsed });
+			object parsed = Enum.Parse(TKey, s);
+			object actualKey = m_kbIndexer.GetValue(CurrentKeyboard, new object[] { parsed }) ?? throw new NullReferenceException();
 
 			ActualKeyDict.Add(key, actualKey);
 		}
@@ -107,43 +113,43 @@ internal sealed class InputSystem : IHandleInput
 		return ActualKeyDict[key];
 	}
 
-	public bool GetKeyDown(KeyCode key) => (bool)m_btnWasPressedProp.GetValue(GetActualKey(key), null);
+	public bool GetKeyDown(KeyCode key) => (bool?)m_btnWasPressedProp.GetValue(GetActualKey(key), null) ?? throw new NullReferenceException();
 
-	public bool GetKey(KeyCode key) => (bool)m_btnIsPressedProp.GetValue(GetActualKey(key), null);
+	public bool GetKey(KeyCode key) => (bool?)m_btnIsPressedProp.GetValue(GetActualKey(key), null) ?? throw new NullReferenceException();
 
-	public bool GetKeyUp(KeyCode key) => (bool)m_btnWasReleasedProp.GetValue(GetActualKey(key), null);
+	public bool GetKeyUp(KeyCode key) => (bool?)m_btnWasReleasedProp.GetValue(GetActualKey(key), null) ?? throw new NullReferenceException();
 
 	public bool GetMouseButtonDown(int btn)
 	{
-		switch (btn)
+		return btn switch
 		{
-			case 0: return (bool)m_btnWasPressedProp.GetValue(LeftMouseButton, null);
-			case 1: return (bool)m_btnWasPressedProp.GetValue(RightMouseButton, null);
-			case 2: return (bool)m_btnWasPressedProp.GetValue(MiddleMouseButton, null);
-			default: throw new NotImplementedException();
-		}
+			0 => (bool?)m_btnWasPressedProp.GetValue(LeftMouseButton, null),
+			1 => (bool?)m_btnWasPressedProp.GetValue(RightMouseButton, null),
+			2 => (bool?)m_btnWasPressedProp.GetValue(MiddleMouseButton, null),
+			_ => throw new NotImplementedException(),
+		} ?? throw new NullReferenceException();
 	}
 
 	public bool GetMouseButton(int btn)
 	{
-		switch (btn)
+		return btn switch
 		{
-			case 0: return (bool)m_btnIsPressedProp.GetValue(LeftMouseButton, null);
-			case 1: return (bool)m_btnIsPressedProp.GetValue(RightMouseButton, null);
-			case 2: return (bool)m_btnIsPressedProp.GetValue(MiddleMouseButton, null);
-			default: throw new NotImplementedException();
-		}
+			0 => (bool?)m_btnIsPressedProp.GetValue(LeftMouseButton, null),
+			1 => (bool?)m_btnIsPressedProp.GetValue(RightMouseButton, null),
+			2 => (bool?)m_btnIsPressedProp.GetValue(MiddleMouseButton, null),
+			_ => throw new NotImplementedException(),
+		} ?? throw new NullReferenceException();
 	}
 
 	public bool GetMouseButtonUp(int btn)
 	{
-		switch (btn)
+		return btn switch
 		{
-			case 0: return (bool)m_btnWasReleasedProp.GetValue(LeftMouseButton, null);
-			case 1: return (bool)m_btnWasReleasedProp.GetValue(RightMouseButton, null);
-			case 2: return (bool)m_btnWasReleasedProp.GetValue(MiddleMouseButton, null);
-			default: throw new NotImplementedException();
-		}
+			0 => (bool?)m_btnWasReleasedProp.GetValue(LeftMouseButton, null),
+			1 => (bool?)m_btnWasReleasedProp.GetValue(RightMouseButton, null),
+			2 => (bool?)m_btnWasReleasedProp.GetValue(MiddleMouseButton, null),
+			_ => throw new NotImplementedException(),
+		} ?? throw new NullReferenceException();
 	}
 
 	public Vector2 MousePosition
@@ -152,7 +158,7 @@ internal sealed class InputSystem : IHandleInput
 		{
 			try
 			{
-				return (Vector2)m_readVector2InputMethod.Invoke(MousePositionInfo, new object[0]);
+				return (Vector2?)m_readVector2InputMethod.Invoke(MousePositionInfo, Array.Empty<object>()) ?? throw new NullReferenceException();
 			}
 			catch
 			{
@@ -167,7 +173,7 @@ internal sealed class InputSystem : IHandleInput
 		{
 			try
 			{
-				return (Vector2)m_readVector2InputMethod.Invoke(MouseScrollInfo, new object[0]);
+				return (Vector2?)m_readVector2InputMethod.Invoke(MouseScrollInfo, Array.Empty<object>()) ?? throw new NullReferenceException();
 			}
 			catch
 			{
